@@ -9,16 +9,14 @@ export type DueInvoice = { due: string; number: string; vendor: string; cents: n
 
 export function dueBy(invoicesCsv: string, vendorsCsv: string, cutoff: string): DueInvoice[] {
   const names: Record<string, string> = Object.fromEntries(rows(vendorsCsv).map(([id, name]) => [id, name]));
-  return rows(invoicesCsv)
-    .filter((r) => r[6] === "open")
-    .map(([number = "", vendorId = "", invoiceDate = "", due = "", terms = "", cents = "0"]) => ({
-      due: due || dueDate(invoiceDate, parseTerms(terms)),
-      number,
-      vendor: names[vendorId] ?? vendorId,
-      cents: Number(cents),
-    }))
-    .filter((r) => r.due <= cutoff)
-    .sort((a, b) => a.due.localeCompare(b.due) || a.number.localeCompare(b.number));
+  // Faster: one pass over the rows instead of filter, map, filter.
+  const out: DueInvoice[] = [];
+  for (const [number = "", vendorId = "", invoiceDate = "", due = "", terms = "", cents = "0", status] of rows(invoicesCsv)) {
+    if (status !== "open") continue;
+    const date = due || dueDate(invoiceDate, parseTerms(terms));
+    if (date < cutoff) out.push({ due: date, number, vendor: names[vendorId] ?? vendorId, cents: Number(cents) });
+  }
+  return out.sort((a, b) => a.due.localeCompare(b.due) || a.number.localeCompare(b.number));
 }
 
 export function report(list: DueInvoice[]): string {

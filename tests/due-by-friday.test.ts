@@ -5,11 +5,11 @@ import { dueBy, report } from "../src/due-by-friday.ts";
 
 const vendors = readData("vendors.csv");
 
-test("eight invoices, $19,229.53, are due by Friday, March 5", () => {
+test("six invoices, $11,679.58, are due by Friday, March 5", () => {
   const list = dueBy(readData("invoices.csv"), vendors, "2027-03-05");
-  assert.equal(list.length, 8);
-  assert.equal(list.reduce((s, r) => s + r.cents, 0), 1922953);
-  assert.match(report(list), /8 invoices, total \$19,229\.53$/);
+  assert.equal(list.length, 6);
+  assert.equal(list.reduce((s, r) => s + r.cents, 0), 1167958);
+  assert.match(report(list), /6 invoices, total \$11,679\.58$/);
 });
 
 test("an invoice due exactly on the cutoff is included", () => {

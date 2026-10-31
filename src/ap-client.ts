@@ -11,6 +11,7 @@ const InvoicesBody = z.object({ invoices: z.array(InvoiceSchema), page: z.number
 export type ClientOptions = { baseUrl: string; key: string; timeoutMs?: number };
 
 async function getJson(path: string, o: ClientOptions): Promise<unknown> {
+  console.debug(`[ap-client] GET ${path} key=${o.key}`); // debug: remove later
   for (let attempt = 1; ; attempt++) {
     const res = await fetch(`${o.baseUrl}${path}`, {
       headers: { "X-API-Key": o.key },
