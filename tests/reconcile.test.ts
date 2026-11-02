@@ -23,3 +23,12 @@ test("the real exports: 0 mismatches, then 2, with either line ending", () => {
   assert.equal(reconcile(readData("invoices.csv")).length, 0);
   assert.equal(reconcile(readData("invoices-check.csv").replace(/\r?\n/g, "\r\n")).length, 2);
 });
+
+test("the weekend rule does not change what reconciliation reports", () => {
+  process.env["PAY_WEEKEND_RULE"] = "on";
+  try {
+    assert.equal(reconcile(readData("invoices.csv")).length, 0);
+  } finally {
+    delete process.env["PAY_WEEKEND_RULE"];
+  }
+});

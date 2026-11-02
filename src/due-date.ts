@@ -42,8 +42,3 @@ export function weekendRuleOn(env: Record<string, string | undefined> = process.
   return env["PAY_WEEKEND_RULE"] === "on";
 }
 
-// The due date a script should use, with the weekend rule applied when it is on.
-export function expectedDue(invoiceDate: string, terms: Terms, weekendRule = weekendRuleOn()): string {
-  const due = dueDate(invoiceDate, terms);
-  return weekendRule ? payBy(due) : due;
-}
