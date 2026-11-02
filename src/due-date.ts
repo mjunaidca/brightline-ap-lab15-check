@@ -27,3 +27,23 @@ export function dueDate(invoiceDate: string, terms: Terms): string {
   date.setUTCDate(date.getUTCDate() + termsDays(terms));
   return date.toISOString().slice(0, 10);
 }
+
+// Finance proposal: a due date on a Saturday or Sunday is paid on the Friday before.
+// Off unless PAY_WEEKEND_RULE=on, until AP approves the policy.
+export function payBy(due: string): string {
+  const date = new Date(`${due}T00:00:00Z`);
+  const day = date.getUTCDay(); // 0 is Sunday, 6 is Saturday
+  if (day === 6) date.setUTCDate(date.getUTCDate() - 1);
+  if (day === 0) date.setUTCDate(date.getUTCDate() - 2);
+  return date.toISOString().slice(0, 10);
+}
+
+export function weekendRuleOn(env: Record<string, string | undefined> = process.env): boolean {
+  return env["PAY_WEEKEND_RULE"] === "on";
+}
+
+// The due date a script should use, with the weekend rule applied when it is on.
+export function expectedDue(invoiceDate: string, terms: Terms, weekendRule = weekendRuleOn()): string {
+  const due = dueDate(invoiceDate, terms);
+  return weekendRule ? payBy(due) : due;
+}

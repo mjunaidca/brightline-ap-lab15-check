@@ -3,7 +3,7 @@
 import { readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
 import { records } from "./csv.ts";
-import { dueDate, parseTerms } from "./due-date.ts";
+import { expectedDue, parseTerms } from "./due-date.ts";
 
 export type Mismatch = { number: string; stated: string; computed: string };
 
@@ -14,7 +14,7 @@ export function reconcile(csv: string): Mismatch[] {
     if (stated === "") continue;
     const terms = row["terms"];
     if (terms === undefined) throw new Error("The file has no terms column");
-    const computed = dueDate(row["invoice_date"] ?? "", parseTerms(terms));
+    const computed = expectedDue(row["invoice_date"] ?? "", parseTerms(terms));
     if (computed !== stated) found.push({ number: row["invoice_number"] ?? "", stated, computed });
   }
   return found;
