@@ -32,3 +32,7 @@ Scripts the accounts payable (AP) team at Brightline Wholesale Supply runs on in
 - Scripts in `src/`, one script per file. Tests in `tests/`, named `<script>.test.ts`.
 - Python in `py/brightline_ap/`, tests in `py/tests/`, named `test_<module>.py`. Add Python packages with `uv add`, never `pip install`, and only after asking.
 - `NOTES.md` is the handover for the next session. `ports/` records what changed on each agent.
+
+## Code Review Rules
+
+Read `REVIEW.md` from the base branch first and follow it.
