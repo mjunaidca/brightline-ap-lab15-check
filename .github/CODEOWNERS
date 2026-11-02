@@ -1,0 +1,19 @@
+# The high-tier paths from REVIEW.md, and their owner.
+# Replace @mjunaidca with your own GitHub user name.
+# The last matching line wins. Paths not listed here have no owner, so no owner review.
+/.github/                      @mjunaidca
+/REVIEW.md                     @mjunaidca
+/AGENTS.md                     @mjunaidca
+/data/                         @mjunaidca
+/.env.example                  @mjunaidca
+/src/due-date.ts               @mjunaidca
+/src/due-by-friday.ts          @mjunaidca
+/src/money.ts                  @mjunaidca
+/py/brightline_ap/due_date.py  @mjunaidca
+/tests/                        @mjunaidca
+/py/tests/                     @mjunaidca
+# The checks themselves, and the files that decide how tests run
+/scripts/check-*.sh            @mjunaidca
+/package.json                  @mjunaidca
+/tsconfig.json                 @mjunaidca
+/py/pyproject.toml             @mjunaidca
