@@ -9,3 +9,4 @@
 
 ## Open proposal
 - The weekend rule (a Saturday or Sunday due date is paid the Friday before) is a finance proposal, not policy. It lives on branches, not on `main`.
+- Chapter 15 done.
