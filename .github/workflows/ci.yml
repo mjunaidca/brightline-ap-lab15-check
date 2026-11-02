@@ -39,3 +39,11 @@ jobs:
         run: bash scripts/check-tests-unchanged.sh "origin/${{ github.base_ref }}"
         env:
           ALLOW_TEST_CHANGES: ${{ contains(github.event.pull_request.labels.*.name, 'tests-changed') }}
+
+  no-secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: No secret is printed or written in code
+        run: bash scripts/check-no-secret-output.sh
