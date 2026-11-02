@@ -24,3 +24,10 @@ def terms_days(terms: Terms) -> int:
 
 def due_date(invoice_date: str, terms: Terms) -> str:
     return (date.fromisoformat(invoice_date) + timedelta(days=terms_days(terms))).isoformat()
+
+
+def pay_by(due: str) -> str:
+    """Finance proposal: a Saturday or Sunday due date is paid on the Friday before."""
+    d = date.fromisoformat(due)
+    shift = {5: 1, 6: 2}.get(d.weekday(), 0)
+    return (d - timedelta(days=shift)).isoformat()

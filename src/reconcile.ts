@@ -14,6 +14,7 @@ export function reconcile(csv: string): Mismatch[] {
     if (stated === "") continue;
     const terms = row["terms"];
     if (terms === undefined) throw new Error("The file has no terms column");
+    // The export states contract due dates, so compare with the rule, never with the pay date.
     const computed = dueDate(row["invoice_date"] ?? "", parseTerms(terms));
     if (computed !== stated) found.push({ number: row["invoice_number"] ?? "", stated, computed });
   }
